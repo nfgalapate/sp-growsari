@@ -13,7 +13,7 @@ app.post("/enroll", auth, async (req, res) => {
 
     try{
         var subject = await Subject.findOne({subject_name});
-        
+
         if(subject==null){
             res.send("There is no subject with name " + subject_name)
         } else{
@@ -26,7 +26,9 @@ app.post("/enroll", auth, async (req, res) => {
                 {subjects: {$elemMatch: {subject_id: s_id}}}
             );
 
-            if(checkEnrollment == null){ //add subject to user
+            console.log(checkEnrollment);
+
+            if(checkEnrollment.subjects.length == 0){ //add subject to user
                 var user = await User.updateOne(
                     {email: enrollee},
                     {$push:{subjects: {subject_id: s_id, status: "enrolled"}}}
@@ -42,21 +44,40 @@ app.post("/enroll", auth, async (req, res) => {
     }
     
 
-    
-   
-   
-    
-
-    
 });
 
 //function to get subjects of user
 app.get("/subjects", auth, async(req, res) => { 
     var enrollee = (currentUser(req,res));
-    console.log("enrollee" + enrollee);
     var user = await User.findOne({email:enrollee});
     
     res.status(200).json(user.subjects);
-})
+});
+
+app.patch("/subjects", auth, async(req,res) =>{
+    const {subject_name, s} = req.body;
+    console.log(subject_name);
+    var enrollee = (currentUser(req,res));
+    try{
+        var subject = await Subject.findOne({subject_name});
+        if(subject == null){
+            res.status(400).send("There is no subject with name " + subject_name);
+        } else {
+            var s_id = subject._id.toString();
+            console.log(s);        
+
+            var checkEnrollment = await User.findOneAndUpdate(
+                {email:enrollee, subjects:{$elemMatch:{subject_id: s_id}}},
+                {$set: {'subjects.$.status': s}}
+            );
+            console.log(checkEnrollment);
+            res.status(200).send("Successfully updated " + subject_name + " to " + s);
+        }
+        
+
+    } catch (err){
+        console.log(err);
+    }
+});
 
 module.exports = app;

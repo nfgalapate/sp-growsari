@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.post("/add", async (req, res) =>{
     try {
         const{ subject_name, units, status, activities } = req.body;
-        if(subject_name != null && (units != NaN || units > 0) && status != null){
+        if(subject_name != null && (units != NaN || units > 0)){
             const subject = await Subject.create({
                 subject_name,
                 units,
@@ -30,8 +30,13 @@ app.post("/add", async (req, res) =>{
 });
 
 app.get("/", async(req, res) =>{
-    const allSubjects = await Subject.FindAll;
-    res.status(200).json(allSubjects);
-})
+    try{
+        const allSubjects = await Subject.find();
+        res.status(200).json(allSubjects);
+    } catch (err) {
+        console.log(err);
+    }
+    
+});
 
 module.exports = app;
