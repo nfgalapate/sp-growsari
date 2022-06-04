@@ -46,6 +46,34 @@ app.post("/enroll", auth, async (req, res) => {
 
 });
 
+app.patch("/unenroll", auth, async (req, res) => {
+    const user = currentUser(req,res);
+    const {subject_name} = req.body;
+    if(subject_name!=null){
+        try{
+            const findSubject = await Subject.findOne(
+                {subject_name: subject_name}
+            );
+            if(findSubject!=null){
+                
+                const findUser = await User.findOneAndUpdate
+                (
+                    {email: user},
+                    {$pull: {subjects: {subject_id: findSubject._id.toString()}}}
+                );
+                res.status(200).send("You have successfully unenrolled from: " + subject_name);
+            } else {
+                res.status(400).send("Subject does not exist.");
+            }
+            
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    }
+
+});
+
 //function to get subjects of user
 app.get("/subjects", auth, async(req, res) => { 
     var enrollee = (currentUser(req,res));

@@ -25,5 +25,8 @@ app.use('/subjects', subjects);
 var user = require('./routes/user');
 app.use('/user', user);
 
+var notes = require('./routes/notes');
+app.use('/notes', notes);
+
 
 module.exports = app;
