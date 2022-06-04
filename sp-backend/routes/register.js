@@ -33,6 +33,7 @@ app.post("/", async (req, res) => {
         //Encrypt user password
         const saltRounds = 10;
         const hashedPwd = await bcrypt.hash(req.body.password, saltRounds);
+        //save user to db
         const user = User.create({
             first_name,
             last_name,
@@ -40,8 +41,6 @@ app.post("/", async (req, res) => {
             password: hashedPwd,
         });
 
-        // Create user in our database
-        
 
         // Create token
         const token = jwt.sign(

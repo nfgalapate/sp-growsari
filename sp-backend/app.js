@@ -19,4 +19,11 @@ app.use('/welcome', welcome);
 var login = require('./routes/login');
 app.use('/login', login);
 
+var subjects = require('./routes/subjects');
+app.use('/subjects', subjects);
+
+var user = require('./routes/user');
+app.use('/user', user);
+
+
 module.exports = app;
