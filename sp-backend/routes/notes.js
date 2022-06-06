@@ -72,7 +72,6 @@ app.patch("/update", auth, async(req, res) =>{
                 res.status(400).send("There is no note entitled " + note_title);
             }
         } catch (err){
-            console.log(err);
             res.status(400).send(err);
         }
     } else {
