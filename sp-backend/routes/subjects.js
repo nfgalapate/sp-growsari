@@ -50,7 +50,7 @@ app.delete('/delete', async(req, res) => {
             const deleteSubj = await Subject.deleteOne({subject_name});
             res.status(200).send("Subject " + subject_name + " has been deleted");
         } catch (err) {
-            res. status(400).send(err);
+            res.status(400).send(err);
         }
     } else {
         res.status(400).send("Subject name is required");

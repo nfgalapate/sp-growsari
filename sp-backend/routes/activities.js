@@ -26,7 +26,7 @@ app.post("/add", auth, async(req, res) => {
     if(activity_name!=null && subject!=null){
         var findSubject = await Subject.findOne({subject_name: subject});
         if(findSubject==null){
-            res.send("There is no subject with name " + subject);
+            res.status(400).send("There is no subject with name " + subject);
         } else {
             try{
                 const activity = await Activity.create({
@@ -46,13 +46,15 @@ app.post("/add", auth, async(req, res) => {
                 
             }
         }
+    } else {
+        res.status(400).send("All inputs are required");
     }
 
 });
 
 app.patch("/update", auth, async(req, res) => {
     const {activity_name, status} = req.body;
-    if(activity_name != null && status != null){
+    if(activity_name != null || status != null){
         try{
             var findActivity = await Activity.findOne({activity_name});
             if(findActivity==null){

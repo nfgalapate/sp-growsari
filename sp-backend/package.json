@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -28,8 +28,12 @@
   },
   "jest": {
     "testEnvironment": "node",
+    "collectCoverage": true,
     "coveragePathIgnorePatterns": [
-      "/node_modules/", "/package-lock.json", "/package.json"
+      "/node_modules/",
+      "/package-lock.json",
+      "/package.json",
+      "/config/"
     ]
   }
 }

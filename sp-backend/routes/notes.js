@@ -61,7 +61,7 @@ app.patch("/update", auth, async(req, res) =>{
     if(note_title != null && content != null){
         try{
             const findNote = await Note.findOne({note_title});
-            console.log(findNote);
+          
             if(findNote!=null){
                 var updateNote = await Note.findOneAndUpdate(
                     {note_title},
@@ -97,7 +97,6 @@ app.delete("/delete", auth, async(req, res) => {
                 }
             }
         } catch(err){
-            console.log(err);
             res.status(400).send(err);
         }
         

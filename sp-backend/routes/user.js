@@ -14,9 +14,9 @@ app.post("/enroll", auth, async (req, res) => {
 
     try {
         var subject = await Subject.findOne({ subject_name });
-
+       
         if (subject == null) {
-            res.send("There is no subject with name " + subject_name)
+            res.status(400).send("There is no subject with name " + subject_name)
         } else {
             var s_id = subject._id.toString();
 
