@@ -28,5 +28,9 @@ app.use('/user', user);
 var notes = require('./routes/notes');
 app.use('/notes', notes);
 
+var activities = require('./routes/activities');
+app.use('/activities', activities);
+
+
 
 module.exports = app;
