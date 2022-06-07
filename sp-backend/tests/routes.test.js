@@ -72,7 +72,7 @@ describe('Logging in with invalid credentials', () => {
         const res = await request(app)
             .post('/login')
             .set('x-access-token', token)
-            .send({                
+            .send({
                 "email": "a@gmail.com",
                 "password": "invalidpasswordhere"
             });
@@ -88,7 +88,7 @@ describe('Logging in without input', () => {
             .post('/login')
             .send({});
         expect(res.text).toEqual("All input is required");
-        expect(res.statusCode).toEqual(400); 
+        expect(res.statusCode).toEqual(400);
     });
 });
 
@@ -645,7 +645,8 @@ describe('DELETE activities without a token', () => {
         const res = await request(app)
             .delete('/activities/delete')
             .send({
-                "activity_name": "New Activity 1"});
+                "activity_name": "New Activity 1"
+            });
         expect(res.statusCode).toEqual(403);
         expect(res.text).toEqual("A token is required for authentication");
     });
@@ -658,7 +659,8 @@ describe('DELETE non-existent activity', () => {
             .delete('/activities/delete')
             .set('x-access-token', token)
             .send({
-                "activity_name": "New Activity 100"});
+                "activity_name": "New Activity 100"
+            });
         expect(res.statusCode).toEqual(400);
         expect(res.text).toEqual("Activity does not exist");
     });
@@ -671,7 +673,8 @@ describe('DELETE non-existent activity', () => {
             .delete('/activities/delete')
             .set('x-access-token', token)
             .send({
-                "activity_name": "New Activity 1"});
+                "activity_name": "New Activity 1"
+            });
         expect(res.statusCode).toEqual(200);
         expect(res.text).toEqual("You have successfully deleted New Activity 1");
     });
